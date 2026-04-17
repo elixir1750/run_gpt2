@@ -29,12 +29,40 @@
 
 ## 1. 创建虚拟环境
 
+macOS / Linux:
+
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 pip install -e .
+```
+
+Windows PowerShell:
+
+```powershell
+py -3 -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+pip install -e .
+```
+
+Windows Command Prompt:
+
+```bat
+py -3 -m venv .venv
+.venv\Scripts\activate.bat
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+pip install -e .
+```
+
+如果 PowerShell 阻止脚本执行，可以先运行：
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 ```
 
 ## 2. 网页界面
@@ -128,3 +156,46 @@ python -m gpt2_prompt_demo \
 - 第一次运行会从 Hugging Face 下载模型，取决于网络环境可能较慢。
 - 如果本机没有 GPU，会自动走 CPU，速度会慢一些。
 - `gpt2` 原生更擅长英文文本；中文建议换模型。
+- Windows 用户建议优先使用 PowerShell，并尽量用 `py -3` 来创建虚拟环境。
+- Windows 路径里如果有空格，命令行参数中的本地路径建议加引号。
+
+## 8. Hugging Face 下载慢或失败怎么办
+
+如果你所在的网络环境访问 Hugging Face 较慢，可以考虑以下几种方式。
+
+使用镜像站临时启动：
+
+macOS / Linux:
+
+```bash
+HF_ENDPOINT=https://hf-mirror.com python -m gpt2_prompt_demo.web
+```
+
+Windows PowerShell:
+
+```powershell
+$env:HF_ENDPOINT="https://hf-mirror.com"
+python -m gpt2_prompt_demo.web
+```
+
+Windows Command Prompt:
+
+```bat
+set HF_ENDPOINT=https://hf-mirror.com
+python -m gpt2_prompt_demo.web
+```
+
+如果你想先下载到指定目录，也可以配合 `--cache-dir`：
+
+```bash
+python -m gpt2_prompt_demo \
+  --model gpt2 \
+  --cache-dir ./hf-cache \
+  --prompt "Hello"
+```
+
+补充说明：
+
+- `HF_ENDPOINT` 是给 Hugging Face Hub 客户端指定镜像地址的常见做法。
+- 镜像站可用性取决于你当前网络环境和镜像服务状态。
+- 如果模型已经下载过一次，之后通常会直接从本地缓存读取。
