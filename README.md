@@ -65,6 +65,30 @@ pip install -e .
 Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 ```
 
+如果 `pip install` 很慢，也可以临时指定 PyPI 镜像。
+
+macOS / Linux:
+
+```bash
+python -m pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install -e . -i https://pypi.tuna.tsinghua.edu.cn/simple
+```
+
+Windows PowerShell / Command Prompt:
+
+```bat
+python -m pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install -e . -i https://pypi.tuna.tsinghua.edu.cn/simple
+```
+
+如果你想长期使用镜像，也可以配置 pip：
+
+```bash
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+```
+
 ## 2. 网页界面
 
 启动本地网页服务：
@@ -158,6 +182,7 @@ python -m gpt2_prompt_demo \
 - `gpt2` 原生更擅长英文文本；中文建议换模型。
 - Windows 用户建议优先使用 PowerShell，并尽量用 `py -3` 来创建虚拟环境。
 - Windows 路径里如果有空格，命令行参数中的本地路径建议加引号。
+- 安装依赖如果很慢，可以给 `pip install` 加 `-i` 参数指定 PyPI 镜像。
 
 ## 8. Hugging Face 下载慢或失败怎么办
 
